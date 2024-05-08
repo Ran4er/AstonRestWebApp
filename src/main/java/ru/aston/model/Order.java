@@ -1,11 +1,12 @@
 package ru.aston.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class Order {
     private int id;
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
     private Book book;
     private int quantity;
 
@@ -13,14 +14,14 @@ public class Order {
     }
 
     public Order(int userId, int bookId, int quantity) {
-    	this.users.get(0).setId(userId);
+        this.users.add(new User(userId, "", ""));
         this.book.setId(bookId);
         this.quantity = quantity;
     }
     
     public Order(int id, int userId, int bookId, int quantity) {
     	this.id = id;
-        this.users.get(0).setId(userId);
+        this.users.add(new User(userId, "", ""));
         this.book.setId(bookId);
         this.quantity = quantity;
     }
@@ -38,7 +39,7 @@ public class Order {
     }
 
     public void setUser(User user) {
-        this.users.addLast(user);
+        this.users.add(user);
     }
 
     public Book getBook() {
@@ -58,6 +59,7 @@ public class Order {
     }
 
     public int getUserId() {
+        if (users.isEmpty()) return 0;
         return users.getLast().getId();
     }
 

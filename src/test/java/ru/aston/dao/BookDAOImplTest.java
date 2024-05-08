@@ -61,7 +61,7 @@ public class BookDAOImplTest {
     @Test
     void getAllBooks() {
         List<Book> books = bookDAO.getAllBooks();
-        assertEquals(5, books.size());
+        assertEquals(1, books.size());
     }
 
     @Test

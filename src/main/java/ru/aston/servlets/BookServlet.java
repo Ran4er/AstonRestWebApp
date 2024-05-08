@@ -3,7 +3,6 @@ package ru.aston.servlets;
 import java.io.IOException;
 import java.util.List;
 
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 
 import jakarta.servlet.annotation.WebServlet;
@@ -26,8 +25,7 @@ public class BookServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Book> books = bookService.getAllBooks();
         request.setAttribute("books", books);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("books.jsp");
-        dispatcher.forward(request, response);
+        request.getRequestDispatcher("books.jsp").forward(request, response);
     }
 
     @Override
