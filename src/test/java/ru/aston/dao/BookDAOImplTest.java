@@ -34,7 +34,7 @@ public class BookDAOImplTest {
         System.setProperty("DB_PASSWORD", postgresContainer.getPassword());
         try (Connection connection = DriverManager.getConnection(postgresContainer.getJdbcUrl(), postgresContainer.getUsername(), postgresContainer.getPassword());
              var statement = connection.createStatement()) {
-            statement.execute("CREATE TABLE IF NOT EXISTS books (id SERIAL PRIMARY KEY, title VARCHAR(255), author VARCHAR(255), genre VARCHAR(255), price DOUBLE)");
+            statement.execute("CREATE TABLE IF NOT EXISTS books (id SERIAL PRIMARY KEY, title VARCHAR(255), author_id VARCHAR(255), genre_id VARCHAR(255), price DOUBLE);");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -61,7 +61,7 @@ public class BookDAOImplTest {
     @Test
     void getAllBooks() {
         List<Book> books = bookDAO.getAllBooks();
-        assertEquals(1, books.size());
+        assertEquals(5, books.size());
     }
 
     @Test

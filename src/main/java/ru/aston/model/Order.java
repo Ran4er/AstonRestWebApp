@@ -1,8 +1,11 @@
 package ru.aston.model;
 
+import java.util.List;
+import java.util.Objects;
+
 public class Order {
     private int id;
-    private User user;
+    private List<User> users;
     private Book book;
     private int quantity;
 
@@ -10,14 +13,14 @@ public class Order {
     }
 
     public Order(int userId, int bookId, int quantity) {
-        this.user.setId(userId);
+    	this.users.get(0).setId(userId);
         this.book.setId(bookId);
         this.quantity = quantity;
     }
     
     public Order(int id, int userId, int bookId, int quantity) {
     	this.id = id;
-        this.user.setId(userId);
+        this.users.get(0).setId(userId);
         this.book.setId(bookId);
         this.quantity = quantity;
     }
@@ -31,11 +34,11 @@ public class Order {
     }
 
     public User getUser() {
-        return user;
+        return users.getLast();
     }
 
     public void setUser(User user) {
-        this.user = user;
+        this.users.addLast(user);
     }
 
     public Book getBook() {
@@ -55,53 +58,34 @@ public class Order {
     }
 
     public int getUserId() {
-        return user.getId();
+        return users.getLast().getId();
     }
 
     public int getBookId() {
         return book.getId();
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + id;
-        result = prime * result + ((user == null) ? 0 : user.hashCode());
-        result = prime * result + ((book == null) ? 0 : book.hashCode());
-        result = prime * result + quantity;
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		return Objects.hash(book, id, quantity, users);
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Order other = (Order) obj;
-        if (id != other.id)
-            return false;
-        if (user == null) {
-            if (other.user != null)
-                return false;
-        } else if (!user.equals(other.user))
-            return false;
-        if (book == null) {
-            if (other.book != null)
-                return false;
-        } else if (!book.equals(other.book))
-            return false;
-        if (quantity != other.quantity)
-            return false;
-        return true;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Order other = (Order) obj;
+		return Objects.equals(book, other.book) && id == other.id && quantity == other.quantity
+				&& Objects.equals(users, other.users);
+	}
 
-    @Override
-    public String toString() {
-        return "Order [id=" + id + ", user=" + user + ", book=" + book + ", quantity=" + quantity + "]";
-    }
+	@Override
+	public String toString() {
+		return "Order [id=" + id + ", users=" + users + ", book=" + book + ", quantity=" + quantity + "]";
+	}    
 
 }
