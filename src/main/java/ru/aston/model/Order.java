@@ -15,14 +15,14 @@ public class Order {
 
     public Order(int userId, int bookId, int quantity) {
         this.users.add(new User(userId, "", ""));
-        this.book.setId(bookId);
+        this.book = new Book(bookId,"","","",0D);
         this.quantity = quantity;
     }
     
     public Order(int id, int userId, int bookId, int quantity) {
     	this.id = id;
         this.users.add(new User(userId, "", ""));
-        this.book.setId(bookId);
+        this.book = new Book(bookId,"","","",0D);
         this.quantity = quantity;
     }
 
@@ -35,7 +35,7 @@ public class Order {
     }
 
     public User getUser() {
-        return users.getLast();
+        return users.get(0);
     }
 
     public void setUser(User user) {
@@ -60,7 +60,7 @@ public class Order {
 
     public int getUserId() {
         if (users.isEmpty()) return 0;
-        return users.getLast().getId();
+        return users.get(0).getId();
     }
 
     public int getBookId() {

@@ -30,7 +30,7 @@ public class OrderServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         int userId = Integer.parseInt(request.getParameter("userId"));
         int bookId = Integer.parseInt(request.getParameter("bookId"));

@@ -9,8 +9,6 @@ public class DBUtil {
 	private static final String URL = "jdbc:postgresql://localhost:5432/bookstore";
 	private static final String USER = "postgres";
 	private static final String PASSWORD = "toor36547";
-	
-    //private static Connection connection;
 
 	public static Connection getConnection() {
         Connection connection;
@@ -29,7 +27,7 @@ public class DBUtil {
             try {
                 connection.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
         }
     }
