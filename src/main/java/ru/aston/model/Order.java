@@ -65,6 +65,14 @@ public class Order {
         return book.getId();
     }
 
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }    
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(book, id, quantity, users);
@@ -86,6 +94,6 @@ public class Order {
 	@Override
 	public String toString() {
 		return "Order [id=" + id + ", users=" + users + ", book=" + book + ", quantity=" + quantity + "]";
-	}    
+	}
 
 }
