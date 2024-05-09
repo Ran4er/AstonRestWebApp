@@ -15,14 +15,14 @@ public class Order {
 
     public Order(int userId, int bookId, int quantity) {
         this.users.add(new User(userId, "", ""));
-        this.book = new Book(bookId,"","","",0D);
+        this.book = new Book(bookId,"",0,0,0D);
         this.quantity = quantity;
     }
     
     public Order(int id, int userId, int bookId, int quantity) {
     	this.id = id;
         this.users.add(new User(userId, "", ""));
-        this.book = new Book(bookId,"","","",0D);
+        this.book = new Book(bookId,"",0,0,0D);
         this.quantity = quantity;
     }
 

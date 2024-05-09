@@ -46,8 +46,10 @@ public class UserServletTest {
     @Test
     void testDoGet() throws ServletException, IOException {
         List<User> users = new ArrayList<>();
-        users.add(new User("testUser", "testPassword"));
+        users.add(new User(1,"testUser", "testPassword"));
         when(userService.getAllUsers()).thenReturn(users);
+
+        when(request.getRequestDispatcher(anyString())).thenReturn(requestDispatcher);
 
         StringWriter stringWriter = new StringWriter();
         PrintWriter printWriter = new PrintWriter(stringWriter);
@@ -65,6 +67,7 @@ public class UserServletTest {
 
     @Test
     void testDoPost() throws ServletException, IOException {
+        when(request.getParameter("id")).thenReturn("1");
         when(request.getParameter("username")).thenReturn("testUser");
         when(request.getParameter("password")).thenReturn("testPassword");
 

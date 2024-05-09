@@ -5,26 +5,29 @@ import java.util.List;
 public class Book {
     private int id;
     private String title;
-    private String author;
-    private String genre;
+    private int author_id;
+    private int genre_id;
     private double price;
     private List<Order> orders;
+    static int counter = 1;
     
     public Book() {
     }
 
-    public Book(String title, String author, String genre, double price) {
+    public Book(String title, int author_id, int genre_id, double price) {
+        this.id = counter++;
         this.title = title;
-        this.author = author;
-        this.genre = genre;
+        this.author_id = author_id;
+        this.genre_id = genre_id;
         this.price = price;
     }
     
-    public Book(int id, String title, String author, String genre, double price) {
+    public Book(int id, String title, int author_id, int genre_id, double price) {
         this.id = id;
+        counter = id;
     	this.title = title;
-        this.author = author;
-        this.genre = genre;
+        this.author_id = author_id;
+        this.genre_id = genre_id;
         this.price = price;
     }
 
@@ -44,20 +47,20 @@ public class Book {
         this.title = title;
     }
 
-    public String getAuthor() {
-        return author;
+    public int getAuthor() {
+        return author_id;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setAuthor(int author) {
+        this.author_id = author;
     }
 
-    public String getGenre() {
-        return genre;
+    public int getGenre() {
+        return genre_id;
     }
 
-    public void setGenre(String genre) {
-        this.genre = genre;
+    public void setGenre(int genre) {
+        this.genre_id = genre;
     }
 
     public double getPrice() {
@@ -76,55 +79,5 @@ public class Book {
         this.orders = orders;
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + id;
-        result = prime * result + ((title == null) ? 0 : title.hashCode());
-        result = prime * result + ((author == null) ? 0 : author.hashCode());
-        result = prime * result + ((genre == null) ? 0 : genre.hashCode());
-        long temp;
-        temp = Double.doubleToLongBits(price);
-        result = prime * result + (int) (temp ^ (temp >>> 32));
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Book other = (Book) obj;
-        if (id != other.id)
-            return false;
-        if (title == null) {
-            if (other.title != null)
-                return false;
-        } else if (!title.equals(other.title))
-            return false;
-        if (author == null) {
-            if (other.author != null)
-                return false;
-        } else if (!author.equals(other.author))
-            return false;
-        if (genre == null) {
-            if (other.genre != null)
-                return false;
-        } else if (!genre.equals(other.genre))
-            return false;
-        if (Double.doubleToLongBits(price) != Double.doubleToLongBits(other.price))
-            return false;
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "Book [id=" + id + ", title=" + title + ", author=" + author + ", genre=" + genre + ", price=" + price
-                + "]";
-    }
 
 }

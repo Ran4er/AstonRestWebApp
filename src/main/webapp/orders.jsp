@@ -5,6 +5,7 @@
 <%@ page import="ru.aston.service.impl.OrderServiceImpl" %>
 <%@ page import="ru.aston.dao.impl.OrderDAOImpl" %>
 <%@ page import="ru.aston.dao.OrderDAO" %>
+<%@ page import="ru.aston.util.DBUtil" %>
 
 <html>
 <head>
@@ -23,7 +24,7 @@
             </tr>
         </thead>
         <tbody>
-            <% OrderDAO orderDAO = new OrderDAOImpl(); %>
+            <% OrderDAO orderDAO = new OrderDAOImpl(DBUtil.getConnection()); %>
             <% OrderService orderService = new OrderServiceImpl(orderDAO); %>
             <% List<Order> orders = orderService.getAllOrders(); %>
             <% for (Order order : orders) { %>

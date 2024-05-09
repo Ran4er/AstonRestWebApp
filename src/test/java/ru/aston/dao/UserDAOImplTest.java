@@ -20,26 +20,24 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class UserDAOImplTest {
 
     @Container
-    private static final PostgreSQLContainer<?> postgresContainer = new PostgreSQLContainer<>("postgres:latest");
+    private static final PostgreSQLContainer<?> postgresContainer = new PostgreSQLContainer<>("postgres:latest").withInitScript("DB-migration.sql");
 
-    private final UserDAOImpl userDAO = new UserDAOImpl();
+    private static UserDAOImpl userDAO;
+    private static Connection connection;
 
     @BeforeAll
-    static void setup() {
+    static void setup() throws SQLException {
         postgresContainer.start();
-        System.setProperty("DB_URL", postgresContainer.getJdbcUrl());
-        System.setProperty("DB_USERNAME", postgresContainer.getUsername());
-        System.setProperty("DB_PASSWORD", postgresContainer.getPassword());
-        try (Connection connection = DriverManager.getConnection(postgresContainer.getJdbcUrl(), postgresContainer.getUsername(), postgresContainer.getPassword());
-             var statement = connection.createStatement()) {
-            statement.execute("CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, username VARCHAR(255), password VARCHAR(255))");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        String jdbcUrl = postgresContainer.getJdbcUrl();
+        String username = postgresContainer.getUsername();
+        String password = postgresContainer.getPassword();
+        connection = DriverManager.getConnection(jdbcUrl, username, password);
+        userDAO = new UserDAOImpl(connection);
     }
 
     @AfterAll
-    static void cleanup() {
+    static void cleanup() throws SQLException {
+        connection.close();
         postgresContainer.stop();
     }
 
@@ -52,14 +50,14 @@ public class UserDAOImplTest {
 
     @Test
     void getUserById() {
-        User user = userDAO.getUserById(1);
+        User user = userDAO.getUserById(2);
         assertNotNull(user);
     }
 
     @Test
     void getAllUsers() {
         List<User> users = userDAO.getAllUsers();
-        assertEquals(1, users.size());
+        assertEquals(6, users.size());
     }
 
     @Test
@@ -75,6 +73,6 @@ public class UserDAOImplTest {
     void deleteUser() {
         userDAO.deleteUser(1);
         List<User> users = userDAO.getAllUsers();
-        assertEquals(0, users.size());
+        assertEquals(5, users.size());
     }
 }

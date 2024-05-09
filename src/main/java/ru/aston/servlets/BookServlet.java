@@ -3,6 +3,7 @@ package ru.aston.servlets;
 import java.io.IOException;
 import java.util.List;
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 
 import jakarta.servlet.annotation.WebServlet;
@@ -25,15 +26,16 @@ public class BookServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Book> books = bookService.getAllBooks();
         request.setAttribute("books", books);
-        request.getRequestDispatcher("books.jsp").forward(request, response);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("books.jsp");
+        dispatcher.forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         String title = request.getParameter("title");
-        String author = request.getParameter("author");
-        String genre = request.getParameter("genre");
+        int author = Integer.parseInt(request.getParameter("author"));
+        int genre = Integer.parseInt(request.getParameter("genre"));
         double price = Double.parseDouble(request.getParameter("price"));
 
         Book newBook = new Book(id, title, author, genre, price);

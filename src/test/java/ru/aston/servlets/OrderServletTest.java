@@ -46,8 +46,10 @@ public class OrderServletTest {
     @Test
     void testDoGet() throws ServletException, IOException {
         List<Order> orders = new ArrayList<>();
-        orders.add(new Order(1, 1, 1));
+        orders.add(new Order(1,1, 1, 1));
         when(orderService.getAllOrders()).thenReturn(orders);
+
+        when(request.getRequestDispatcher(anyString())).thenReturn(requestDispatcher);
 
         StringWriter stringWriter = new StringWriter();
         PrintWriter printWriter = new PrintWriter(stringWriter);
@@ -65,8 +67,9 @@ public class OrderServletTest {
 
     @Test
     void testDoPost() throws ServletException, IOException {
-        when(request.getParameter("user_id")).thenReturn("1");
-        when(request.getParameter("book_id")).thenReturn("1");
+        when(request.getParameter("id")).thenReturn("1");
+        when(request.getParameter("userId")).thenReturn("1");
+        when(request.getParameter("bookId")).thenReturn("1");
         when(request.getParameter("quantity")).thenReturn("1");
 
         orderServlet.doPost(request, response);

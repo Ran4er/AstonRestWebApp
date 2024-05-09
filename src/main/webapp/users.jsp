@@ -5,6 +5,7 @@
 <%@ page import="ru.aston.service.impl.UserServiceImpl" %>
 <%@ page import="ru.aston.dao.impl.UserDAOImpl" %>
 <%@ page import="ru.aston.dao.UserDAO" %>
+<%@ page import="ru.aston.util.DBUtil" %>
 
 <html>
 <head>
@@ -21,7 +22,7 @@
             </tr>
         </thead>
         <tbody>
-            <% UserDAO userDAO = new UserDAOImpl(); %>
+            <% UserDAO userDAO = new UserDAOImpl(DBUtil.getConnection()); %>
             <% UserService userService = new UserServiceImpl(userDAO); %>
             <% List<User> users = userService.getAllUsers(); %>
             <% for (User user : users) { %>

@@ -30,14 +30,14 @@ public class BookServiceImplTest {
 
     @Test
     void addBook() {
-        Book book = new Book("Test Book", "Test Author", "Test Genre", 10.99);
+        Book book = new Book("Test Book", 0, 0, 10.99);
         bookService.addBook(book);
         verify(bookDAO, times(1)).addBook(book);
     }
 
     @Test
     void getBookById() {
-        Book expectedBook = new Book("Test Book", "Test Author", "Test Genre", 10.99);
+        Book expectedBook = new Book("Test Book", 0, 0, 10.99);
         when(bookDAO.getBookById(1)).thenReturn(expectedBook);
         Book actualBook = bookService.getBookById(1);
         assertEquals(expectedBook, actualBook);
@@ -46,8 +46,8 @@ public class BookServiceImplTest {
     @Test
     void getAllBooks() {
         List<Book> expectedBooks = new ArrayList<>();
-        expectedBooks.add(new Book("Test Book 1", "Test Author 1", "Test Genre 1", 10.99));
-        expectedBooks.add(new Book("Test Book 2", "Test Author 2", "Test Genre 2", 20.99));
+        expectedBooks.add(new Book("Test Book 1", 0, 0, 10.99));
+        expectedBooks.add(new Book("Test Book 2", 0, 0, 20.99));
         when(bookDAO.getAllBooks()).thenReturn(expectedBooks);
         List<Book> actualBooks = bookService.getAllBooks();
         assertEquals(expectedBooks.size(), actualBooks.size());
@@ -55,7 +55,7 @@ public class BookServiceImplTest {
 
     @Test
     void updateBook() {
-        Book book = new Book("Test Book", "Test Author", "Test Genre", 10.99);
+        Book book = new Book("Test Book", 0, 0, 10.99);
         book.setId(1);
         bookService.updateBook(book);
         verify(bookDAO, times(1)).updateBook(book);

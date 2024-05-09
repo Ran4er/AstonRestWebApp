@@ -15,11 +15,16 @@ import java.util.List;
 
 public class OrderDAOImpl implements OrderDAO {
 
+    private Connection connection;
+
+    public OrderDAOImpl(Connection connection) {
+        this.connection = connection;
+    }
+
     @Override
     public List<Order> getAllOrders() {
         List<Order> orders = new ArrayList<>();
-        try (Connection connection = DBUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement("SELECT * FROM orders");
+        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM orders");
              ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
                 Order order = new Order();
@@ -42,8 +47,7 @@ public class OrderDAOImpl implements OrderDAO {
     @Override
     public Order getOrderById(int id) {
         Order order = null;
-        try (Connection connection = DBUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement("SELECT * FROM orders WHERE id = ?")) {
+        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM orders WHERE id = ?")) {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -66,8 +70,7 @@ public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public void addOrder(Order order) {
-        try (Connection connection = DBUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement("INSERT INTO orders (user_id, book_id, quantity) VALUES (?, ?, ?)")) {
+        try (PreparedStatement statement = connection.prepareStatement("INSERT INTO orders (user_id, book_id, quantity) VALUES (?, ?, ?)")) {
             statement.setInt(1, order.getUser().getId());
             statement.setInt(2, order.getBook().getId());
             statement.setInt(3, order.getQuantity());
@@ -79,8 +82,7 @@ public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public void updateOrder(Order order) {
-        try (Connection connection = DBUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement("UPDATE orders SET user_id=?, book_id=?, quantity=? WHERE id=?")) {
+        try (PreparedStatement statement = connection.prepareStatement("UPDATE orders SET user_id=?, book_id=?, quantity=? WHERE id=?")) {
             statement.setInt(1, order.getUser().getId());
             statement.setInt(2, order.getBook().getId());
             statement.setInt(3, order.getQuantity());
@@ -93,8 +95,7 @@ public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public void deleteOrder(int id) {
-        try (Connection connection = DBUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement("DELETE FROM orders WHERE id=?")) {
+        try (PreparedStatement statement = connection.prepareStatement("DELETE FROM orders WHERE id=?")) {
             statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {

@@ -13,6 +13,7 @@ import ru.aston.model.Book;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,33 +22,43 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @Testcontainers
 public class BookDAOImplTest {
 
-    @Container
-    private static final PostgreSQLContainer<?> postgresContainer = new PostgreSQLContainer<>("postgres:latest");
+    private static final String TRUNCATE_BOOKS = "TRUNCATE TABLE books RESTART IDENTITY CASCADE";
 
-    private final BookDAOImpl bookDAO = new BookDAOImpl();
+    @Container
+    private static final PostgreSQLContainer<?> postgresContainer = new PostgreSQLContainer<>("postgres:latest").withInitScript("DB-migration.sql");
+
+    private static BookDAOImpl bookDAO;
+
+    private static Connection connection;
 
     @BeforeAll
-    static void setup() {
+    static void setup() throws SQLException {
         postgresContainer.start();
-        System.setProperty("DB_URL", postgresContainer.getJdbcUrl());
-        System.setProperty("DB_USERNAME", postgresContainer.getUsername());
-        System.setProperty("DB_PASSWORD", postgresContainer.getPassword());
-        try (Connection connection = DriverManager.getConnection(postgresContainer.getJdbcUrl(), postgresContainer.getUsername(), postgresContainer.getPassword());
-             var statement = connection.createStatement()) {
-            statement.execute("CREATE TABLE IF NOT EXISTS books (id SERIAL PRIMARY KEY, title VARCHAR(255), author_id VARCHAR(255), genre_id VARCHAR(255), price DOUBLE);");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        String jdbcUrl = postgresContainer.getJdbcUrl();
+        String username = postgresContainer.getUsername();
+        String password = postgresContainer.getPassword();
+        connection = DriverManager.getConnection(jdbcUrl, username, password);
+        bookDAO = new BookDAOImpl(connection);
     }
 
     @AfterAll
-    static void cleanup() {
+    static void cleanup() throws SQLException {
+        //truncateTable(TRUNCATE_BOOKS);
+        connection.close();
         postgresContainer.stop();
+    }
+
+    public static void truncateTable(String query) {
+        try (Statement statement = connection.createStatement()) {
+            statement.executeQuery(query);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
     void addBook() {
-        Book book = new Book("Test Book", "Test Author", "Test Genre", 10.99);
+        Book book = new Book("Test Book", 1, 1, 10.99);
         bookDAO.addBook(book);
         assertNotNull(book.getId());
     }
@@ -61,7 +72,7 @@ public class BookDAOImplTest {
     @Test
     void getAllBooks() {
         List<Book> books = bookDAO.getAllBooks();
-        assertEquals(1, books.size());
+        assertEquals(6, books.size());
     }
 
     @Test
@@ -77,6 +88,6 @@ public class BookDAOImplTest {
     void deleteBook() {
         bookDAO.deleteBook(1);
         List<Book> books = bookDAO.getAllBooks();
-        assertEquals(0, books.size());
+        assertEquals(5, books.size());
     }
 }

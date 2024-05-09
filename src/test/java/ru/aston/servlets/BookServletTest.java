@@ -46,8 +46,10 @@ public class BookServletTest {
     @Test
     void testDoGet() throws ServletException, IOException {
         List<Book> books = new ArrayList<>();
-        books.add(new Book("Test Book", "Test Author", "Test Genre", 10.99));
+        books.add(new Book("Test Book", 0, 0, 10.99));
         when(bookService.getAllBooks()).thenReturn(books);
+
+        when(request.getRequestDispatcher(anyString())).thenReturn(requestDispatcher);
 
         StringWriter stringWriter = new StringWriter();
         PrintWriter printWriter = new PrintWriter(stringWriter);
@@ -65,9 +67,10 @@ public class BookServletTest {
 
     @Test
     void testDoPost() throws ServletException, IOException {
+        when(request.getParameter("id")).thenReturn("1");
         when(request.getParameter("title")).thenReturn("Test Book");
-        when(request.getParameter("author")).thenReturn("Test Author");
-        when(request.getParameter("genre")).thenReturn("Test Genre");
+        when(request.getParameter("author")).thenReturn("0");
+        when(request.getParameter("genre")).thenReturn("0");
         when(request.getParameter("price")).thenReturn("10.99");
 
         bookServlet.doPost(request, response);

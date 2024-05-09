@@ -13,11 +13,16 @@ import java.util.List;
 
 public class UserDAOImpl implements UserDAO {
 
+    private Connection connection;
+
+    public UserDAOImpl(Connection connection) {
+        this.connection = connection;
+    }
+
     @Override
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
-        try (Connection connection = DBUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement("SELECT * FROM users");
+        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM users");
              ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
                 User user = new User();
@@ -35,8 +40,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User getUserById(int id) {
         User user = null;
-        try (Connection connection = DBUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement("SELECT * FROM users WHERE id = ?")) {
+        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM users WHERE id = ?")) {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -54,8 +58,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public void addUser(User user) {
-        try (Connection connection = DBUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement("INSERT INTO users (username, password) VALUES (?, ?)")) {
+        try (PreparedStatement statement = connection.prepareStatement("INSERT INTO users (username, password) VALUES (?, ?)")) {
             statement.setString(1, user.getUsername());
             statement.setString(2, user.getPassword());
             statement.executeUpdate();
@@ -66,8 +69,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public void updateUser(User user) {
-        try (Connection connection = DBUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement("UPDATE users SET username=?, password=? WHERE id=?")) {
+        try (PreparedStatement statement = connection.prepareStatement("UPDATE users SET username=?, password=? WHERE id=?")) {
             statement.setString(1, user.getUsername());
             statement.setString(2, user.getPassword());
             statement.setInt(3, user.getId());
@@ -79,8 +81,14 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public void deleteUser(int id) {
-        try (Connection connection = DBUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement("DELETE FROM users WHERE id=?")) {
+        try (PreparedStatement statement = connection.prepareStatement("DELETE FROM orders WHERE user_id=?")) {
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        try (PreparedStatement statement = connection.prepareStatement("DELETE FROM users WHERE id=?")) {
             statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {

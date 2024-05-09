@@ -5,6 +5,7 @@
 <%@ page import="ru.aston.service.impl.BookServiceImpl" %>
 <%@ page import="ru.aston.dao.BookDAO" %>
 <%@ page import="ru.aston.dao.impl.BookDAOImpl" %>
+<%@ page import="ru.aston.util.DBUtil" %>
 
 <html>
 <head>
@@ -24,7 +25,7 @@
             </tr>
         </thead>
         <tbody>
-            <% BookDAO bookDAO = new BookDAOImpl();%>
+            <% BookDAO bookDAO = new BookDAOImpl(DBUtil.getConnection());%>
             <% BookService bookService = new BookServiceImpl(bookDAO); %>
             <% List<Book> books = bookService.getAllBooks(); %>
             <% for (Book book : books) { %>
