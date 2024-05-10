@@ -16,6 +16,8 @@ public class DBUtilTest {
             assertFalse(connection.isClosed());
         } catch (SQLException e) {
             fail("Exception thrown while getting connection: " + e.getMessage());
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -27,6 +29,8 @@ public class DBUtilTest {
             assertTrue(connection.isClosed());
         } catch (SQLException e) {
             fail("Exception thrown while closing connection: " + e.getMessage());
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 }

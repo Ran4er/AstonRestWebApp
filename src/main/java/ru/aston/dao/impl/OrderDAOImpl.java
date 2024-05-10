@@ -3,7 +3,6 @@ package ru.aston.dao.impl;
 import ru.aston.model.Order;
 import ru.aston.model.User;
 import ru.aston.model.Book;
-import ru.aston.util.DBUtil;
 import ru.aston.dao.OrderDAO;
 
 import java.sql.Connection;

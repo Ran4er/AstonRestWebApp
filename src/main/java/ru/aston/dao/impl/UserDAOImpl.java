@@ -1,7 +1,6 @@
 package ru.aston.dao.impl;
 
 import ru.aston.model.User;
-import ru.aston.util.DBUtil;
 import ru.aston.dao.UserDAO;
 
 import java.sql.Connection;
