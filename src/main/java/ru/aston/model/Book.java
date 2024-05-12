@@ -5,29 +5,26 @@ import java.util.List;
 public class Book {
     private int id;
     private String title;
-    private int author_id;
-    private int genre_id;
+    private int authorId;
+    private int genreId;
     private double price;
     private List<Order> orders;
-    static int counter = 1;
     
     public Book() {
     }
 
-    public Book(String title, int author_id, int genre_id, double price) {
-        this.id = counter++;
+    public Book(String title, int authorId, int genreId, double price) {
         this.title = title;
-        this.author_id = author_id;
-        this.genre_id = genre_id;
+        this.authorId = authorId;
+        this.genreId = genreId;
         this.price = price;
     }
     
-    public Book(int id, String title, int author_id, int genre_id, double price) {
+    public Book(int id, String title, int authorId, int genreId, double price) {
         this.id = id;
-        counter = id;
     	this.title = title;
-        this.author_id = author_id;
-        this.genre_id = genre_id;
+        this.authorId = authorId;
+        this.genreId = genreId;
         this.price = price;
     }
 
@@ -48,19 +45,19 @@ public class Book {
     }
 
     public int getAuthor() {
-        return author_id;
+        return authorId;
     }
 
     public void setAuthor(int author) {
-        this.author_id = author;
+        this.authorId = author;
     }
 
     public int getGenre() {
-        return genre_id;
+        return genreId;
     }
 
     public void setGenre(int genre) {
-        this.genre_id = genre;
+        this.genreId = genre;
     }
 
     public double getPrice() {

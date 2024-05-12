@@ -10,27 +10,23 @@ import static org.junit.jupiter.api.Assertions.*;
 public class DBUtilTest {
 
     @Test
-    void getConnection() {
+    void getConnection() throws ClassNotFoundException {
         try (Connection connection = DBUtil.getConnection()) {
             assertNotNull(connection);
             assertFalse(connection.isClosed());
         } catch (SQLException e) {
             fail("Exception thrown while getting connection: " + e.getMessage());
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
         }
     }
 
     @Test
-    void closeConnection() {
+    void closeConnection() throws ClassNotFoundException {
         try (Connection connection = DBUtil.getConnection()) {
             assertFalse(connection.isClosed());
             DBUtil.closeConnection(connection);
             assertTrue(connection.isClosed());
         } catch (SQLException e) {
             fail("Exception thrown while closing connection: " + e.getMessage());
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
         }
     }
 }

@@ -1,0 +1,12 @@
+version: '26.1.2'
+
+services:
+  db_auth:
+    container_name: myDB
+    ports:
+      - "15336:5432"
+    environment:
+      - POSTGRES_PASSWORD=toor36547
+      - POSTGRES_USER=admin
+      - POSTGRES_DB=bookstore
+    image: postgres:12.19-alpine3.19
