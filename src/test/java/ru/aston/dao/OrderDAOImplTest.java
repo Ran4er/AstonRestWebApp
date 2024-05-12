@@ -11,7 +11,6 @@ import ru.aston.model.Order;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -23,7 +22,7 @@ public class OrderDAOImplTest {
     private static final String TRUNCATE_ORDERS = "TRUNCATE TABLE orders RESTART IDENTITY CASCADE";
 
     @Container
-    private static final PostgreSQLContainer<?> postgresContainer = new PostgreSQLContainer<>("postgres:latest").withInitScript("DB-migration.sql");
+    private static final PostgreSQLContainer<?> postgresContainer = new PostgreSQLContainer<>("postgres:latest").withInitScript("init.sql");
 
     private static OrderDAOImpl orderDAO;
 

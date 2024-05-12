@@ -3,6 +3,8 @@ version: '26.1.2'
 services:
   db_auth:
     container_name: myDB
+    volumes:
+      - ./src/main/resources:/docker-entrypoint-initdb.d
     ports:
       - "15336:5432"
     environment:

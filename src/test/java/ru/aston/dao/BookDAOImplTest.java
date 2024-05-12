@@ -25,7 +25,7 @@ public class BookDAOImplTest {
     private static final String TRUNCATE_BOOKS = "TRUNCATE TABLE books RESTART IDENTITY CASCADE";
 
     @Container
-    private static final PostgreSQLContainer<?> postgresContainer = new PostgreSQLContainer<>("postgres:latest").withInitScript("DB-migration.sql");
+    private static final PostgreSQLContainer<?> postgresContainer = new PostgreSQLContainer<>("postgres:latest").withInitScript("init.sql");
 
     private static BookDAOImpl bookDAO;
 
